@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace FirstProject
 {
-	public class MovingStar
+	internal class MovingStar : DrawableGameComponent
 	{
 		Texture2D star;
 		const int minx = 10, maxx = 590;
@@ -15,23 +15,18 @@ namespace FirstProject
 		int posx = 100, posy = 100;
 		int dx = 1, dy = 1;
 
-		public MovingStar()
-		{
-		}
-
-		public void Init(int _posx, int _posy)
+		public MovingStar(Game1 game, int _posx, int _posy) : base (game)
 		{
 			posx = _posx;
 			posy = _posy;
 		}
 
-		public void Load(ContentManager Content)
+		protected override void LoadContent()
 		{
-
-			star = Content.Load<Texture2D>("starGold");
+			star = Game.Content.Load<Texture2D>("starGold");
 		}
 
-		public void Move()
+		public override void Update(GameTime gameTime)
 		{
 			posx += dx;
 			posy += dy;
@@ -54,9 +49,10 @@ namespace FirstProject
 			}
 		}
 
-		public void Draw(SpriteBatch spriteBatch)
+		public override void Draw(GameTime gameTime)
 		{
-			spriteBatch.Draw(star, new Vector2(posx, posy), Color.White);
+			Game1 g = (Game1)Game;
+			g.spriteBatch.Draw(star, new Vector2(posx, posy), Color.White);
 		}
 
 	}

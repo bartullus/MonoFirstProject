@@ -12,9 +12,9 @@ namespace FirstProject
 	public class Game1 : Game
 	{
 		GraphicsDeviceManager graphics;
-		SpriteBatch spriteBatch;
+		public SpriteBatch spriteBatch;
 
-		int starNum = 7;
+		int starNum = 8;
 		MovingStar[] stars;
 
 		public Game1()
@@ -36,8 +36,8 @@ namespace FirstProject
 			stars = new MovingStar[starNum];
 			for (int i = 0; i < starNum; ++i)
 			{
-				stars[i] = new MovingStar();
-				stars[i].Init(100 + i * 60, 100);
+				MovingStar star = new MovingStar(this, 100 + i * 60, 100);
+				Components.Add(star);
 			}
 
 			base.Initialize();
@@ -53,11 +53,6 @@ namespace FirstProject
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			//TODO: use this.Content to load your game content here 
-			for (int i = 0; i < starNum; ++i)
-			{
-				stars[i].Load(Content);
-			}
-
 		}
 
 		/// <summary>
@@ -73,10 +68,6 @@ namespace FirstProject
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 #endif
-			for (int i = 0; i < starNum; ++i)
-			{
-				stars[i].Move();
-			}
 
 			base.Update(gameTime);
 		}
@@ -92,13 +83,8 @@ namespace FirstProject
 			//TODO: Add your drawing code here
 
 			spriteBatch.Begin();
-			for (int i = 0; i < starNum; ++i)
-			{
-				stars[i].Draw(spriteBatch);
-			}
-			spriteBatch.End();
-
 			base.Draw(gameTime);
+			spriteBatch.End();
 		}
 	}
 }
