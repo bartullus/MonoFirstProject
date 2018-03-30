@@ -14,7 +14,8 @@ namespace FirstProject
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
-		Texture2D star;
+		int starNum = 7;
+		MovingStar[] stars;
 
 		public Game1()
 		{
@@ -32,6 +33,12 @@ namespace FirstProject
 		protected override void Initialize()
 		{
 			// TODO: Add your initialization logic here
+			stars = new MovingStar[starNum];
+			for (int i = 0; i < starNum; ++i)
+			{
+				stars[i] = new MovingStar();
+				stars[i].Init(100 + i * 60, 100);
+			}
 
 			base.Initialize();
 		}
@@ -46,7 +53,11 @@ namespace FirstProject
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			//TODO: use this.Content to load your game content here 
-			//star = Content.Load<Texture2D>("starGold");
+			for (int i = 0; i < starNum; ++i)
+			{
+				stars[i].Load(Content);
+			}
+
 		}
 
 		/// <summary>
@@ -62,8 +73,10 @@ namespace FirstProject
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 #endif
-
-			// TODO: Add your update logic here
+			for (int i = 0; i < starNum; ++i)
+			{
+				stars[i].Move();
+			}
 
 			base.Update(gameTime);
 		}
@@ -77,6 +90,13 @@ namespace FirstProject
 			graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
 			//TODO: Add your drawing code here
+
+			spriteBatch.Begin();
+			for (int i = 0; i < starNum; ++i)
+			{
+				stars[i].Draw(spriteBatch);
+			}
+			spriteBatch.End();
 
 			base.Draw(gameTime);
 		}
